@@ -1,0 +1,15 @@
+.user{}
+.inner-banner {
+    display: none !important;
+}
+.inner-banner::before {
+    display: none !important;
+}
+.banner-section {
+    padding: 150px 0 !important;
+    padding-bottom: 150px !important;
+}
+.close {
+    font-size: 35px !important;
+  margin-top: -5px !important;
+}

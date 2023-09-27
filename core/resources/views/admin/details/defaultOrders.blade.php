@@ -1,0 +1,72 @@
+@extends('admin.layouts.app')
+
+@section('panel')
+<style>
+@media (max-width: 767px) {
+          table.style--two tbody tr {
+    border: 2px dashed #0000005c;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+    transition: box-shadow 0.3s ease-in-out;
+}
+table.style--two tbody tr:hover {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+	transition: box-shadow 0.3s ease-in-out;
+}
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive--md table-responsive">
+                    <table class="table table--light style--two">
+                        <thead>
+                            <tr>
+                                <th scope="col">@lang('Customer')</th>
+                                <th scope="col">@lang('Amount')</th>
+                                <th scope="col">@lang('Status')</th>
+                                <th scope="col">@lang('Created Date')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($orders as $key => $order)
+                            <tr>
+                                <td data-label="@lang('Customer')">{{ __($order->name) }} </td>
+                                <td data-label="@lang('Amount')">{{number_format($order->order_amount, 2) }} PKR </td>
+                                <td data-label="@lang('Status')">{{ __($order->order_status) }} </td>
+                                <td data-label="@lang('Created Date')">
+                                   {{  showDateTime($order->created_at)}}
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td class="text-muted text-center" colspan="100%">{{ __($emptyMessage) }}</td>
+                            </tr>
+                            @endforelse
+
+                        </tbody>
+                    </table><!-- table end -->
+                </div>
+            </div>
+            <div class="card-footer py-4">
+                {{ paginateLinks($orders) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+@push('breadcrumb-plugins')
+    <form action="{{ route('admin.users.defaultOrders')}}" method="GET" class="form-inline float-sm-right bg--white">
+        <div class="input-group has_append">
+            <input type="text" name="search" class="form-control" placeholder="@lang('Name, username or email')" value="{{ $search ?? '' }}">
+            <div class="input-group-append">
+                <button class="btn btn--primary" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+@endpush
